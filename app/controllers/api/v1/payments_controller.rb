@@ -47,6 +47,6 @@ class Api::V1::PaymentsController < ApplicationController
   end
 
   def payment_params
-    payment.require(:payment).permit(:amount, :notes)
+    @payment.require(:payment).permit(:amount, :notes)
   end
 end
