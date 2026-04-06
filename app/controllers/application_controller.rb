@@ -9,8 +9,4 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordInvalid do |e|
     render json: { errors: e.record.errors }, status: :unprocessable_entity
   end
-
-  rescue_from StandardError do |e|
-    render json: { error: "Error interno" }, status: :internal_server_error
-  end
 end

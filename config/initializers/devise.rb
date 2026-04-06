@@ -163,7 +163,7 @@ Devise.setup do |config|
   config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-  # config.confirmation_keys = [:email]
+  # config.confirmation_keys = [:email]devise.r
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -317,8 +317,10 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+  raise "DEVISE_JWT_SECRET no está configurado" if ENV["DEVISE_JWT_SECRET"].blank?
+
   config.jwt do |jwt|
-  jwt.secret = Rails.application.credentials.secret_key_base
-  jwt.expiration_time = 24.hours.to_i
-end
+  jwt.secret =  ENV["DEVISE_JWT_SECRET"]
+    jwt.expiration_time = 24.hours.to_i
+  end
 end

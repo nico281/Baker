@@ -1,0 +1,204 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/customers":
+    get:
+      summary: list customers
+      tags:
+      - Customers
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    phone:
+                      type: string
+                      nullable: true
+                    notes:
+                      type: string
+                      nullable: true
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - name
+    post:
+      summary: create customer
+      tags:
+      - Customers
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                notes:
+                  type: string
+              required:
+              - name
+  "/api/v1/customers/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Customer ID
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: show customer
+      tags:
+      - Customers
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: not found
+    patch:
+      summary: update customer
+      tags:
+      - Customers
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                notes:
+                  type: string
+    delete:
+      summary: delete customer
+      tags:
+      - Customers
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: deleted
+        '404':
+          description: not found
+  "/users":
+    post:
+      summary: register user
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: invalid params
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                    password:
+                      type: string
+                      minLength: 6
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/users/sign_in":
+    post:
+      summary: login user
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: login successful
+        '401':
+          description: invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/users/sign_out":
+    delete:
+      summary: logout user
+      tags:
+      - Auth
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: logout successful
+        '401':
+          description: unauthorized
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
