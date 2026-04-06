@@ -19,11 +19,19 @@ RSpec.describe 'api/v1/customers', type: :request do
                    name: { type: :string },
                    phone: { type: :string, nullable: true },
                    notes: { type: :string, nullable: true },
+                   total_sales: { type: :number },
+                   total_payments: { type: :number },
+                   balance: { type: :number },
                    created_at: { type: :string, format: 'date-time' },
                    updated_at: { type: :string, format: 'date-time' }
                  },
-                 required: %w[id name]
+                 required: %w[id name total_sales total_payments balance]
                }
+
+        before do
+          c = Customer.create!(name: 'Con ventas')
+          c.sales.create!(amount: 100, description: 'Pastel')
+        end
 
         run_test!
       end
@@ -66,8 +74,55 @@ RSpec.describe 'api/v1/customers', type: :request do
       produces 'application/json'
       security [ { bearer_auth: [] } ]
 
-      response(200, 'ok') do
-        let(:id) { Customer.create!(name: 'Maria Lopez').id }
+      response(200, 'customer with zero balance') do
+        let(:id) { Customer.create!(name: 'Sin movimientos').id }
+
+        schema type: :object,
+               properties: {
+                 id: { type: :integer },
+                 name: { type: :string },
+                 phone: { type: :string, nullable: true },
+                 notes: { type: :string, nullable: true },
+                 total_sales: { type: :number },
+                 total_payments: { type: :number },
+                 balance: { type: :number },
+                 created_at: { type: :string, format: 'date-time' },
+                 updated_at: { type: :string, format: 'date-time' }
+               },
+               required: %w[id name total_sales total_payments balance]
+
+        run_test!
+      end
+
+      response(200, 'customer with positive balance (debtor)') do
+        let(:c) { Customer.create!(name: 'Deudor') }
+        let(:id) do
+          c.sales.create!(amount: 500, description: 'Pastel grande')
+          c.payments.create!(amount: 200)
+          c.id
+        end
+
+        run_test!
+      end
+
+      response(200, 'customer with negative balance (credit)') do
+        let(:c) { Customer.create!(name: 'Con credito') }
+        let(:id) do
+          c.sales.create!(amount: 100, description: 'Galletas')
+          c.payments.create!(amount: 300)
+          c.id
+        end
+
+        run_test!
+      end
+
+      response(200, 'customer fully paid') do
+        let(:c) { Customer.create!(name: 'Al dia') }
+        let(:id) do
+          c.sales.create!(amount: 250, description: 'Pastel mediano')
+          c.payments.create!(amount: 250)
+          c.id
+        end
 
         run_test!
       end

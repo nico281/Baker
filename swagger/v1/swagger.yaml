@@ -31,6 +31,12 @@ paths:
                     notes:
                       type: string
                       nullable: true
+                    total_sales:
+                      type: number
+                    total_payments:
+                      type: number
+                    balance:
+                      type: number
                     created_at:
                       type: string
                       format: date-time
@@ -40,6 +46,9 @@ paths:
                   required:
                   - id
                   - name
+                  - total_sales
+                  - total_payments
+                  - balance
     post:
       summary: create customer
       tags:
@@ -82,7 +91,40 @@ paths:
       - bearer_auth: []
       responses:
         '200':
-          description: ok
+          description: customer fully paid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  phone:
+                    type: string
+                    nullable: true
+                  notes:
+                    type: string
+                    nullable: true
+                  total_sales:
+                    type: number
+                  total_payments:
+                    type: number
+                  balance:
+                    type: number
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                required:
+                - id
+                - name
+                - total_sales
+                - total_payments
+                - balance
         '404':
           description: not found
     patch:
