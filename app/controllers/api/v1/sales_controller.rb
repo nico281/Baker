@@ -12,7 +12,7 @@ class Api::V1::SalesController < ApplicationController
 
   def create
     sale = @customer.sales.new(sale_params)
-    if sale.save?
+    if sale.save
       render json: sale, status: :created
     else
       render json: { errors: sale.errors.full_messages }, status: :unprocessable_entity
@@ -47,6 +47,6 @@ class Api::V1::SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:amount, :date,  :description)
+      params.require(:sale).permit(:amount, :description)
     end
 end
