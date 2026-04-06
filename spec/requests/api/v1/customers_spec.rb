@@ -106,7 +106,7 @@ RSpec.describe 'api/v1/customers', type: :request do
       produces 'application/json'
       security [ { bearer_auth: [] } ]
 
-      response(200, 'deleted') do
+      response(204, 'deleted') do
         let(:id) { Customer.create!(name: 'A borrar').id }
 
         run_test!

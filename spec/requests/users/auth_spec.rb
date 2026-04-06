@@ -83,7 +83,7 @@ RSpec.describe 'Users Auth', type: :request do
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(200, 'logout successful (no token)') do
         let(:Authorization) { nil }
 
         run_test!

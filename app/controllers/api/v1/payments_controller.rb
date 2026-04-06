@@ -3,7 +3,14 @@ class Api::V1::PaymentsController < ApplicationController
   before_action :set_payment, only: [ :show, :update, :destroy ]
 
   def index
-    render json: @customer.payments.recent
+    customers = Customer.includes(:sales, :payments).all
+    render json: customers.map { |c|
+      c.as_json.merge(
+        total_sales: c.sales.sum(&:amount),
+        total_payments: c.payments.sum(&:amount),
+        balance: total_salses - total_payments
+      )
+    }
   end
 
   def show
@@ -47,6 +54,6 @@ class Api::V1::PaymentsController < ApplicationController
   end
 
   def payment_params
-    @payment.require(:payment).permit(:amount, :notes)
+      params.require(:payment).permit(:amount, :notes)
   end
 end

@@ -10,8 +10,12 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def create
-    customer = Customer.create(customer_params)
-    render json: customer, status: :created
+    customer = Customer.new(customer_params)
+    if customer.save
+      render json: customer, status: :created
+    else
+      render json: { errors: customer.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -21,7 +25,7 @@ class Api::V1::CustomersController < ApplicationController
 
   def destroy
     @customer.destroy
-      render json: @customer, status: no_content
+      render json: @customer, status: :no_content
   end
 
   private
