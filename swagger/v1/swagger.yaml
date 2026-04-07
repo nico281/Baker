@@ -174,27 +174,27 @@ paths:
                   properties:
                     id:
                       type: integer
+                    customerId:
+                      type: integer
                     amount:
-                      type: string
+                      type: number
                     date:
                       type: string
                       format: date
+                      nullable: true
                     notes:
                       type: string
                       nullable: true
-                    customer_id:
-                      type: integer
-                    created_at:
+                    createdAt:
                       type: string
                       format: date-time
-                    updated_at:
+                    updatedAt:
                       type: string
                       format: date-time
                   required:
                   - id
+                  - customerId
                   - amount
-                  - date
-                  - customer_id
     post:
       summary: create payment
       tags:
@@ -292,36 +292,6 @@ paths:
       responses:
         '200':
           description: ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    amount:
-                      type: string
-                    description:
-                      type: string
-                    date:
-                      type: string
-                      format: date
-                    customer_id:
-                      type: integer
-                    created_at:
-                      type: string
-                      format: date-time
-                    updated_at:
-                      type: string
-                      format: date-time
-                  required:
-                  - id
-                  - amount
-                  - description
-                  - date
-                  - customer_id
     post:
       summary: create sale
       tags:

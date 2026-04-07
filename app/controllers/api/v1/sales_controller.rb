@@ -3,17 +3,17 @@ class Api::V1::SalesController < ApplicationController
   before_action :set_sale, only: [ :show, :update, :destroy ]
 
   def index
-    render json: @customer.sales
+    render json: @customer.sales.map { |s| SaleSerializer.new(s).as_json }
   end
 
   def show
-    render json: @sale
+    render json: SaleSerializer.new(@sale).as_json
   end
 
   def create
     sale = @customer.sales.new(sale_params)
     if sale.save
-      render json: sale, status: :created
+      render json: SaleSerializer.new(sale).as_json, status: :created
     else
       render json: { errors: sale.errors.full_messages }, status: :unprocessable_entity
     end
@@ -21,32 +21,32 @@ class Api::V1::SalesController < ApplicationController
 
   def update
     if @sale.update(sale_params)
-      render json: @sale
+      render json: SaleSerializer.new(@sale).as_json
     else
       render json: { errors: sale.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
-   @sale.destroy
-    render json: @sale, status: :no_content
+    @sale.destroy
+    render json: {}, status: :no_content
   end
 
   private
 
-    def set_customer
-      @customer = Customer.find(params[:customer_id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Cliente no encontrado" }, status: :not_found
-    end
+  def set_customer
+    @customer = Customer.find(params[:customer_id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Cliente no encontrado" }, status: :not_found
+  end
 
-    def set_sale
-      @sale = @customer.sales.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Venta no encontrada" }, status: :not_found
-    end
+  def set_sale
+    @sale = @customer.sales.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Venta no encontrada" }, status: :not_found
+  end
 
-    def sale_params
-      params.require(:sale).permit(:amount, :description)
-    end
+  def sale_params
+    params.require(:sale).permit(:amount, :description)
+  end
 end

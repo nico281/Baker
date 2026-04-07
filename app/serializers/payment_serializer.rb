@@ -1,4 +1,4 @@
-class PaymentsSerializer < BaseSerializer
+class PaymentSerializer < BaseSerializer
   def as_json(*)
     base_fields.merge(
       customerId: @object.customer_id,

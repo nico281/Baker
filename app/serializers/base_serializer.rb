@@ -1,4 +1,3 @@
-# app/serializers/base_serializer.rb
 class BaseSerializer
   def initialize(object)
     @object = object

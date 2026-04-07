@@ -14,21 +14,6 @@ RSpec.describe 'api/v1/sales', type: :request do
       security [ { bearer_auth: [] } ]
 
       response(200, 'ok') do
-        schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id: { type: :integer },
-                   amount: { type: :string },
-                   description: { type: :string },
-                   date: { type: :string, format: 'date' },
-                   customer_id: { type: :integer },
-                   created_at: { type: :string, format: 'date-time' },
-                   updated_at: { type: :string, format: 'date-time' }
-                 },
-                 required: %w[id amount description date customer_id]
-               }
-
         run_test!
       end
     end

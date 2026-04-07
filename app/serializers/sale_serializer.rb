@@ -1,4 +1,3 @@
-# app/serializers/sale_serializer.rb
 class SaleSerializer < BaseSerializer
   def as_json(*)
     base_fields.merge(

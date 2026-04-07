@@ -19,14 +19,14 @@ RSpec.describe 'api/v1/payments', type: :request do
                  type: :object,
                  properties: {
                    id: { type: :integer },
-                   amount: { type: :string },
-                   date: { type: :string, format: 'date' },
+                   customerId: { type: :integer },
+                   amount: { type: :number },
+                   date: { type: :string, format: 'date', nullable: true },
                    notes: { type: :string, nullable: true },
-                   customer_id: { type: :integer },
-                   created_at: { type: :string, format: 'date-time' },
-                   updated_at: { type: :string, format: 'date-time' }
+                   createdAt: { type: :string, format: 'date-time' },
+                   updatedAt: { type: :string, format: 'date-time' }
                  },
-                 required: %w[id amount date customer_id]
+                 required: %w[id customerId amount]
                }
 
         run_test!
