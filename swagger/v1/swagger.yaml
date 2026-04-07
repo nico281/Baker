@@ -31,23 +31,17 @@ paths:
                     notes:
                       type: string
                       nullable: true
-                    total_sales:
+                    totalSales:
                       type: number
-                    total_payments:
+                    totalPayments:
                       type: number
                     balance:
                       type: number
-                    created_at:
-                      type: string
-                      format: date-time
-                    updated_at:
-                      type: string
-                      format: date-time
                   required:
                   - id
                   - name
-                  - total_sales
-                  - total_payments
+                  - totalSales
+                  - totalPayments
                   - balance
     post:
       summary: create customer
@@ -107,23 +101,17 @@ paths:
                   notes:
                     type: string
                     nullable: true
-                  total_sales:
+                  totalSales:
                     type: number
-                  total_payments:
+                  totalPayments:
                     type: number
                   balance:
                     type: number
-                  created_at:
-                    type: string
-                    format: date-time
-                  updated_at:
-                    type: string
-                    format: date-time
                 required:
                 - id
                 - name
-                - total_sales
-                - total_payments
+                - totalSales
+                - totalPayments
                 - balance
         '404':
           description: not found

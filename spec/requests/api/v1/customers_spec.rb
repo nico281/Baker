@@ -19,13 +19,11 @@ RSpec.describe 'api/v1/customers', type: :request do
                    name: { type: :string },
                    phone: { type: :string, nullable: true },
                    notes: { type: :string, nullable: true },
-                   total_sales: { type: :number },
-                   total_payments: { type: :number },
-                   balance: { type: :number },
-                   created_at: { type: :string, format: 'date-time' },
-                   updated_at: { type: :string, format: 'date-time' }
+                   totalSales: { type: :number },
+                   totalPayments: { type: :number },
+                   balance: { type: :number }
                  },
-                 required: %w[id name total_sales total_payments balance]
+                 required: %w[id name totalSales totalPayments balance]
                }
 
         before do
@@ -83,13 +81,11 @@ RSpec.describe 'api/v1/customers', type: :request do
                  name: { type: :string },
                  phone: { type: :string, nullable: true },
                  notes: { type: :string, nullable: true },
-                 total_sales: { type: :number },
-                 total_payments: { type: :number },
-                 balance: { type: :number },
-                 created_at: { type: :string, format: 'date-time' },
-                 updated_at: { type: :string, format: 'date-time' }
+                 totalSales: { type: :number },
+                 totalPayments: { type: :number },
+                 balance: { type: :number }
                },
-               required: %w[id name total_sales total_payments balance]
+               required: %w[id name totalSales totalPayments balance]
 
         run_test!
       end
