@@ -46,12 +46,6 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def customer_json(c)
-    total_sales = c.sales.sum(&:amount).to_f
-    total_payments = c.payments.sum(&:amount).to_f
-    c.as_json.merge(
-      "total_sales" => total_sales,
-      "total_payments" => total_payments,
-      "balance" => total_sales - total_payments
-    )
+    CustomerSerializer.new(c).as_json
   end
 end
